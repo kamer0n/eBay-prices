@@ -1,0 +1,15 @@
+{
+  "name": "ebay-prices",
+  "version": "1.0.0",
+  "description": "scrape eBay and get the prices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.1",
+    "puppeteer": "^18.0.5"
+  }
+}

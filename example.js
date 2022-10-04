@@ -24,11 +24,16 @@ console.log(formattedSearchTerm);
 		const shippingPrice = await listings[i].$('.s-item__shipping, .s-item__logisticsCost');
 		if (shippingPrice) {
 			const shippingPriceText = (await (await shippingPrice.getProperty('innerText')).jsonValue());
-			console.log(shippingPriceText);
+			console.log(listingPriceText + " " + shippingPriceText);
+		}
+
+		const soldDate = await listings[i].$('div.s-item__title--tagblock > span.POSITIVE');
+		if (soldDate) {
+			const soldDateText = (await (await soldDate.getProperty('innerText')).jsonValue());
+			console.log(soldDateText);
 		}
 
 		console.log(listingTitleText);
-		console.log(listingPriceText);
 	}
 
 	await page.screenshot({path: 'example.png', fullPage: true});

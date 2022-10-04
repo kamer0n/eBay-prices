@@ -1,32 +1,48 @@
 const puppeteer = require('puppeteer');
 
+const searchTerm = "one pound";
+const formattedSearchTerm = searchTerm.replace(' ', '+');
+console.log(formattedSearchTerm);
+
+
 (async () => {
-  const browser = await puppeteer.launch({headless: false});
-  const page = await browser.newPage();
-  await page.goto('https://www.ebay.co.uk/sch/i.html?_nkw=one+pound&rt=nc&LH_Sold=1&LH_Complete=1');
-  const tweets = await page.$$(".s-item, .s-item__pl-on-bottom");
+	const browser = await puppeteer.launch({headless: false});
+	const page = await browser.newPage();
+	await page.goto(`https://www.ebay.co.uk/sch/i.html?_nkw=${formattedSearchTerm}&rt=nc&LH_Sold=1&LH_Complete=1`);
+	const listings = await page.$$(".s-item, .s-item__pl-on-bottom");
 
-  wait(5000);
-    for (let i = 0; i < tweets.length; i++) {
-        const tweetEle = await tweets[i].$('.s-item__title, .s-item__title--has-tags');
-        const tweet = (await (await tweetEle.getProperty('innerText')).jsonValue());
-        console.log(tweet);
-    }
+	wait(5000);
+	for (let i = 0; i < listings.length; i++) {
+		
+				
+		const listingTitle = await listings[i].$('.s-item__title, .s-item__title--has-tags');
+		const listingTitleText = (await (await listingTitle.getProperty('innerText')).jsonValue());
 
-  await page.screenshot({path: 'example.png', fullPage: true});
+		const listingPrice = await listings[i].$('.s-item__price');
+		const listingPriceText = (await (await listingPrice.getProperty('innerText')).jsonValue());
 
-  /*await items.screenshot({path: 'items.png', fullPage: true}); */
+		const shippingPrice = await listings[i].$('.s-item__shipping, .s-item__logisticsCost');
+		if (shippingPrice) {
+			const shippingPriceText = (await (await shippingPrice.getProperty('innerText')).jsonValue());
+			console.log(shippingPriceText);
+		}
 
-  await browser.close();
-  console.log(tweets.frame);
+		console.log(listingTitleText);
+		console.log(listingPriceText);
+	}
+
+	await page.screenshot({path: 'example.png', fullPage: true});
+
+
+	await browser.close();
 })();
 
 async function wait(time) {
 
-    return new Promise(function(resolve) {
+	return new Promise(function(resolve) {
 
-        setTimeout(resolve, time)
+		setTimeout(resolve, time)
 
-    });
+	});
 
 }

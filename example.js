@@ -2,7 +2,7 @@ import * as puppeteer from 'puppeteer';
 import { Coin } from './coin.js';
 import { getDB, addCoin, decomposeDB } from './firebase_functions.js';
 
-const searchTerm = "gibraltar one pound coin 2012";
+const searchTerm = "gibraltar 50p coin 2012";
 const formattedSearchTerm = searchTerm.replace(/[ ]/g, '+');
 console.log(formattedSearchTerm);
 
@@ -39,8 +39,8 @@ console.log(formattedSearchTerm);
 		if (!soldDate) {
 			continue
 		}
-		const soldDateText = (await (await soldDate.getProperty('innerText')).jsonValue());
-
+		const soldDateText = (await (await soldDate.getProperty('innerText')).jsonValue()).replace('Sold ', '');
+	
 		//console.log(listingTitleText + " " + listingPriceText + " " + shippingPriceText + " " + soldDateText);
 
 		let newCoin = new Coin(listingTitleText, listingPriceText, shippingPriceText, soldDateText);

@@ -132,3 +132,6 @@ eh
 example.png
 admin.json
 ebay-prices-admin.json
+.firebaserc
+database.rules.json
+firebase.json

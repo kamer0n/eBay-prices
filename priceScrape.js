@@ -2,12 +2,13 @@ import * as puppeteer from 'puppeteer';
 import { Coin } from './coin.js';
 import { getDB, addCoin, decomposeDB } from './firebase_functions.js';
 
-const searchTerm = "gibraltar 50p coin 2012";
-const formattedSearchTerm = searchTerm.replace(/[ ]/g, '+');
-console.log(formattedSearchTerm);
+//const searchTermSet = "gibraltar 50p coin 2012";
+//const formattedSearchTerm = searchTerm.replace(/[ ]/g, '+');
+//console.log(formattedSearchTerm);
 
 
-(async () => {
+export async function getPrices (searchTerm) {
+	const formattedSearchTerm = searchTerm.replace(/[ ]/g, '+');
 	const browser = await puppeteer.launch({headless: false});
 	const page = await browser.newPage();
 	await page.goto(`https://www.ebay.co.uk/sch/i.html?_nkw=${formattedSearchTerm}&rt=nc&LH_Sold=1&LH_Complete=1`);
@@ -70,7 +71,7 @@ console.log(formattedSearchTerm);
 	await page.screenshot({path: 'example.png', fullPage: true});
 
 	await browser.close();
-})();
+};
 
 async function wait(time) {
 

@@ -15,11 +15,12 @@ export function getDB() {
     console.log('--- successful try ---');
   }
   catch(err){
-    console.log('herethiinky');
     db = admin.database();
+    db.goOnline();
   }
   return db;
 }
+
 
 export async function decomposeDB() {
   const db = getDB();

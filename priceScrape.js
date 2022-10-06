@@ -9,7 +9,7 @@ import { getDB, addCoin, decomposeDB, getCoins } from './firebase_functions.js';
 
 export async function getPrices (searchTerm) {
 	const formattedSearchTerm = searchTerm.replace(/[ ]/g, '+');
-	const browser = await puppeteer.launch({headless: false});
+	const browser = await puppeteer.launch({headless: true});
 	const page = await browser.newPage();
 	await page.goto(`https://www.ebay.co.uk/sch/i.html?_nkw=${formattedSearchTerm}&rt=nc&LH_Sold=1&LH_Complete=1`);
 	const listings = await page.$$(".s-item, .s-item__pl-on-bottom");
@@ -103,7 +103,7 @@ function groupBye(key, array) {
 	return result;
   }
   
-await getPrices("gibraltar 50p coin 2012");
-console.log((await getCoins()).val());
-await decomposeDB();
+//await getPrices("isle of man 50p 2017");
+//console.log((await getCoins()).val());
+//await decomposeDB();
 

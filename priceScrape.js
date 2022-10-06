@@ -1,6 +1,6 @@
 import * as puppeteer from 'puppeteer';
 import { Coin } from './coin.js';
-import { getDB, addCoin, decomposeDB } from './firebase_functions.js';
+import { getDB, addCoin, decomposeDB, getCoins } from './firebase_functions.js';
 
 //const searchTermSet = "gibraltar 50p coin 2012";
 //const formattedSearchTerm = searchTerm.replace(/[ ]/g, '+');
@@ -64,8 +64,7 @@ export async function getPrices (searchTerm) {
 	  } catch (err) {
 		console.error("Failed to update database", err);
 	  }
-	db.goOffline();
-	console.log(decomposeDB(db));
+	//console.log(decomposeDB(db));
 
 
 	await page.screenshot({path: 'example.png', fullPage: true});
@@ -103,3 +102,8 @@ function groupBye(key, array) {
 	}
 	return result;
   }
+  
+await getPrices("gibraltar 50p coin 2012");
+console.log((await getCoins()).val());
+await decomposeDB();
+

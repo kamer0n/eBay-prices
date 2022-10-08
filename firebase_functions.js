@@ -11,7 +11,7 @@ export function getDB() {
       databaseURL: "https://ebay-prices-default-rtdb.europe-west1.firebasedatabase.app"
     });
     db = admin.database();
-    db.useEmulator('127.0.0.1', '9006');
+    //db.useEmulator('127.0.0.1', '9006');
     console.log('--- successful try ---');
   }
   catch(err){
@@ -32,9 +32,12 @@ export async function addCoin(db, search, coins) {
   // compile a key-value map of new data to be written
   let pendingUpdates = coins.reduce(
     (acc, coinInfo) => {
+      if (coinInfo.price.includes('to')) {
+        return acc;
+      }
       acc[revisedRandId()] = {
         name: coinInfo.name,
-        price: coinInfo.price,
+        price: coinInfo.price.replace(/[^0-9.]/g, ''),
         shipping: coinInfo.shipping,
         date: coinInfo.date,}
       return acc;

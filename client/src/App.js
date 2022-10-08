@@ -20,7 +20,18 @@ function App() {
 
   try {
     let parsed = parseCoins(data);
-    titles = displayCoinTitles(parsed);
+    let titlesWithPrice = {};
+    Object.keys(parsed).forEach((e) => {
+      let average = 0;
+      parsed[e].forEach(coin => {
+        average += parseFloat(coin.price)
+      })
+      average = average / parsed[e].length
+      titlesWithPrice[e] = average.toFixed(2);
+    })
+
+    titles = displayCoinTitles(titlesWithPrice);
+    
   }
   catch (err) {
   }
@@ -33,8 +44,8 @@ function App() {
               <p>Add new coin</p>
             </div>
             <div className="container">
-              <input id="searchTxt" className="newCoin"></input>
-              <button onClick={SendNewCoin}></button>
+              <input id="searchTxt" className="search"></input>
+              <button className="button" onClick={SendNewCoin}>Add</button>
               {spinner && (
         <div className="loading"><div className='loading-spinner'></div></div> 
         )}
@@ -89,7 +100,7 @@ function displayCoinTitles(listOfCoin) {
           <p>{coinObject}</p>
         </div>
         <div className="container" key={coinObject}>
-          <p>{listOfCoin[coinObject].length}</p>
+          <p>£{listOfCoin[coinObject]}</p>
         </div>
       </div>
     );

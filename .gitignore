@@ -135,3 +135,4 @@ ebay-prices-admin.json
 .firebaserc
 database.rules.json
 firebase.json
+ebay-prices-admin.js
